@@ -1,69 +1,66 @@
-<HTML>
-<HEAD><TITLE>Choice</TITLE>
+<!doctype html>
+<!--[if lt IE 7 ]> <html lang="en" class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+<meta name="viewport" content="width = 1050, user-scalable = no" />
+<script type="text/javascript" src="../../extras/jquery.min.1.7.js"></script>
+<script type="text/javascript" src="../../extras/modernizr.2.5.3.min.js"></script>
+</head>
+<body>
 
-<SCRIPT Language="javascript">
+<div class="flipbook-viewport">
+	<div class="container">
+		<div class="flipbook">
+			<div class="page" style="background-image:url(pages/cover.png)"></div>
+			<div class="double" style="background-image:url(pages/tech.png)"></div>
+			<div class="double" style="background-image:url(pages/tech.png)"></div>
+			<div class="double" style="background-image:url(pages/tech.png)"></div>
+			<div class="double" style="background-image:url(pages/tech.png)"></div>
+			<div class="double" style="background-image:url(pages/tech.png)"></div>
+			<div class="page" style="background-image:url(pages/cover.png)"></div>
+		</div>
+	</div>
+</div>
 
-// sets up database of links - SECTION A1
-muresources=""
-muresources["classical"]= "<A HREF='http://net.com/classical.file1'>Meditative classical music<A><P>
- <A HREF='http://net.com/classical.file2'>Provoking classical music<A>"
-muresources["rock"] = "<A HREF='http://net.com/rock.file1'>Popular rock music<A><P>
- <A HREF='http://net.com/rock.file2'>Exciting rock music<A>"
-muresources["ethnic"] = "<A HREF='http://net.com/mexican.file1'>Mexican music<A><P>
- <A HREF='http://net.com/Indian.file2'>Indian music<A>"
 
-function getLink() {
-// constructs unique page using name and choice of music - SECTION A.2
-temp = muresources[choice]
-temp2 = "<TITLE>Custom Links</TITLE><H3>" +document.m.pername.value+", here are some
-links for you</H3><P>"+temp
+<script type="text/javascript">
+function loadApp() {
+	var flipbook = $('.flipbook');
+ 	// Check if the CSS was already loaded
+	
+	if (flipbook.width()==0 || flipbook.height()==0) {
+		setTimeout(loadApp, 10);
+		return;
+	}
+	$('.flipbook .double').scissor();
+	// Create the flipbook
+	$('.flipbook').turn({
+			// Elevation
+			elevation: 50,
+			
+			// Enable gradients
+			gradients: true,
+			
+			// Auto center this flipbook
+			autoCenter: true
+	});
 }
+// Load the HTML4 version if there's not CSS transform
+yepnope({
+	test : Modernizr.csstransforms,
+	yep: ['../../lib/turn.min.js'],
+	nope: ['../../lib/turn.html4.min.js'],
+	both: ['../../lib/scissor.min.js', 'css/double-page.css'],
+	complete: loadApp
+});
+</script>
 
-function writeIt(){
-// creates new window to display page - SECTION A.3
-diswin = window.open();
-diswin.document.open();
-diswin.document.write(temp2);
-diswin.document.close()
-}
+</body>
+</html>
 
-function doAll(){
-// master routine calls other functions - SECTION A.4
-getLink();
-writeIt()
-}
-</SCRIPT>
 
-</HEAD>
-<BODY >
+<!--scripts by Lokesh Nag-->
 
-<!-- Sets up basic input form SECTION B -->
-<H3> Choose the kind of music you prefer<BR>
-and this page will fetch links of interest to you</H3>
-
-<HR>
-
-<FORM NAME="m" >
-Choose a kind of music<P>
-<INPUT TYPE="radio" NAME="mus" VALUE="classical" OnClick="choice='classical'"
->Classical <BR>
-<INPUT TYPE="radio" NAME="mus" VALUE="rock" OnClick="choice='rock'">Rock<BR>
-<INPUT TYPE="radio" NAME="mus" VALUE="ethnic"
-OnClick="choice='ethnic'">Ethnic<BR>
-<HR>
-Please type your name<P>
-<INPUT TYPE="text" NAME="pername" SIZE=25>
-<HR>
-<INPUT TYPE="button" NAME="sub" VALUE="Show me links" OnClick=doAll()>
-<INPUT TYPE="reset" NAME="res" >
-</FORM>
-
-<SCRIPT>
-// sets defaults - SECTION C
-choice = "classical"
-document.m.mus[0].checked = true
-document.m.mus[1].checked = false
-document.m.mus[2].checked = false
-</SCRIPT>
-</BODY>
-</HTML>
